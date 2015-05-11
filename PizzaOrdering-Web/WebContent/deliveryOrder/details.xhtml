@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="id" value="#{deliveryOrderDetails.id}"></f:viewParam>
+			<f:event listener="#{deliveryOrderDetails.ensureInitialized}" type="preRenderView"></f:event>
+		</f:metadata>
+	</ui:define>
+	<ui:define name="title">Delivery Order Details</ui:define>
+	<ui:define name="content">
+		<div class="details">
+			<h2>Delivery Order ##{deliveryOrderDetails.deliveryOrder.id}</h2>
+			<h:form>
+				<h:panelGrid columns="3" columnClasses="form-label,form-input,form-message error"
+					footerClass="form-footer">
+					<h:outputLabel value="Customer" for="customer" />
+					<h:link id="customer" outcome="/customer/details.xhtml">
+						<f:param name="id" value="#{deliveryOrderDetails.deliveryOrder.customer.id}"></f:param>
+						#{deliveryOrderDetails.deliveryOrder.customer}
+					</h:link>
+					<h:message for="customer" />
+					<h:outputLabel value="Received" for="received" />
+					<h:inputText id="received" value="#{deliveryOrderDetails.deliveryOrder.received}" p:placeholder="e.g. 2015-06-30 13:30">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="Europe/Berlin"/>
+					</h:inputText>
+					<h:message for="received" />
+					<f:facet name="footer">
+						<h:commandButton value="Submit changes" action="#{deliveryOrderDetails.submitMasterDataChanges}" />
+						<h:commandButton value="Remove Delivery Order" action="#{deliveryOrderDetails.remove}" />
+					</f:facet>
+				</h:panelGrid>
+				<h3>Order Lines</h3>
+				<h:dataTable value="#{deliveryOrderDetails.deliveryOrder.orderLines}" var="cur"
+					styleClass="data-table" headerClass="data-cell header-cell"
+					columnClasses="data-cell,data-cell,data-cell">
+				<!-- columns for properties of the referenced entity -->
+					<h:column>
+						<f:facet name="header">Quantity</f:facet>
+						#{cur.quantity}
+						<f:facet name="footer">
+							<h:inputText id="quantityForNewOrderLines" value="#{deliveryOrderDetails.quantityForNewOrderLine}">
+							</h:inputText>
+						</f:facet>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Dish</f:facet>
+						<h:link outcome="/dish/details.xhtml">
+							<f:param name="id" value="#{cur.dish.id}"></f:param>
+							#{cur.dish}
+						</h:link>
+						<f:facet name="footer">
+							<h:selectOneMenu id="dishForNewOrderLines" value="#{deliveryOrderDetails.dishForNewOrderLine}" converter="#{dishConverter}">
+								<f:selectItems value="#{deliveryOrderDetails.allDishes}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</h:column>
+					<h:column>
+						<h:commandButton value="Remove" action="#{deliveryOrderDetails.removeFromOrderLines(cur)}" />
+						<f:facet name="footer">
+							<h:commandButton value="Add" action="#{deliveryOrderDetails.addToOrderLines()}" />
+						</f:facet>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
+		<div class="result">
+			<h:outputText rendered="#{deliveryOrderDetails.error}"
+				styleClass="error"
+				value="#{deliveryOrderDetails.errorMessage}" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
