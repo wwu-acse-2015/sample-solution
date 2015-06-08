@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="id" value="#{dishDetails.id}"></f:viewParam>
+			<f:event listener="#{dishDetails.ensureInitialized}" type="preRenderView"></f:event>
+		</f:metadata>
+	</ui:define>
+	<ui:define name="title">Dish Details</ui:define>
+	<ui:define name="content">
+		<div class="details">
+			<h2>Dish ##{dishDetails.dish.id}</h2>
+			<h:form>
+				<h:panelGrid columns="3" columnClasses="form-label,form-input,form-message error"
+					footerClass="form-footer">
+					<h:outputLabel value="Name" for="name" />
+					<h:inputText id="name" value="#{dishDetails.dish.name}" />
+					<h:message for="name" />
+					<h:outputLabel value="Description" for="description" />
+					<h:inputText id="description" value="#{dishDetails.dish.description}" />
+					<h:message for="description" />
+					<h:outputLabel value="Price" for="price" />
+					<h:inputText id="price" value="#{dishDetails.dish.price}" />
+					<h:message for="price" />
+					<f:facet name="footer">
+						<h:commandButton value="Submit changes" action="#{dishDetails.submitMasterDataChanges}" />
+						<h:commandButton value="Remove Dish" action="#{dishDetails.remove}" />
+					</f:facet>
+				</h:panelGrid>
+			</h:form>
+		</div>
+		<div class="result">
+			<h:outputText rendered="#{dishDetails.error}"
+				styleClass="error"
+				value="#{dishDetails.errorMessage}" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

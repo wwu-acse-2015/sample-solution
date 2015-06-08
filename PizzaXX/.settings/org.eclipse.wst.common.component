@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="PizzaXX">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="de.wwu.pi.acse.framework.jar" deploy-path="/lib" handle="module:/resource/de.wwu.pi.acse.framework/de.wwu.pi.acse.framework">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="PizzaXX-Web.war" deploy-path="/" handle="module:/resource/PizzaXX-Web/PizzaXX-Web">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="PizzaXX-Persistence.jar" deploy-path="/lib" handle="module:/resource/PizzaXX-Persistence/PizzaXX-Persistence">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="PizzaXX-EJB.jar" deploy-path="/" handle="module:/resource/PizzaXX-EJB/PizzaXX-EJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

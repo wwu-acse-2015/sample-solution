@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="title">Create Delivery Order</ui:define>
+	<ui:define name="content">
+		<div class="inputForm">
+			<h:form>
+				<h:panelGrid columns="3"
+					columnClasses="form-label,form-input,form-message error"
+					footerClass="form-footer">
+					<h:outputLabel value="Customer" for="customer" />
+					<h:selectOneMenu id="customer" value="#{deliveryOrderCreate.deliveryOrder.customer}" converter="#{customerConverter}">
+						<f:selectItems value="#{deliveryOrderCreate.allOfTypeCustomer}" />
+					</h:selectOneMenu>
+					<h:message for="customer" />
+					<h:outputLabel value="Received" for="received" />
+					<h:inputText id="received" value="#{deliveryOrderCreate.deliveryOrder.received}" p:placeholder="e.g. 2015-06-30 13:30">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="Europe/Berlin"/>
+					</h:inputText>
+					<h:message for="received" />
+					<f:facet name="footer">
+						<h:commandButton value="Submit" action="#{deliveryOrderCreate.persist}" />
+					</f:facet>
+				</h:panelGrid>
+			</h:form>
+		</div>
+		<div class="result">
+			<h:outputText rendered="#{deliveryOrderCreate.error}"
+				styleClass="error"
+				value="#{deliveryOrderCreate.errorMessage}" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
