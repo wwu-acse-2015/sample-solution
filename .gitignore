@@ -3,3 +3,5 @@
 /pizzaOrderDataDB.properties
 /pizzaOrderDataDB.script
 .metadata
+/de.wwu.pi.acse.crudDslXX/bin
+xtend-gen

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="title">Create Customer Entry Form</ui:define>
+	<ui:define name="content">
+		<div class="inputForm">
+			<h:form>
+				<h2>Customer Entry Form</h2>
+					<div>
+					<h:outputText style="form-label" value="Name"></h:outputText>
+					</div>
+					<div>
+					<h:inputText id="tf_name" value="#{customerDetailsCreate.customer.name}" />
+					</div>
+					<div>
+					<h:message styleClass="error" for="tf_name" />
+					</div>
+					<div>
+					<h:panelGrid columns="3"
+						footerClass="form-footer">
+						<h:outputText style="form-label" value="Address"></h:outputText>
+						<h:inputText id="tf_address" value="#{customerDetailsCreate.customer.address}" />
+						<h:message styleClass="error" for="tf_address" />
+						<h:outputLabel value="Phone Number" for="tf_phoneNumber" />
+						<h:inputText id="tf_phoneNumber" value="#{customerDetailsCreate.customer.phoneNumber}" />
+						<h:message styleClass="error" for="tf_phoneNumber" />
+					</h:panelGrid>
+					</div>
+					<div>
+					<h:outputText value="No referenced Delivery Order"></h:outputText>
+					</div>
+					<div>
+					<h:commandButton value="S A V E" action="#{customerDetailsCreate.persist}" />
+					</div>
+			</h:form>
+		</div>
+		<div class="result">
+			<h:outputText rendered="#{customerDetailsCreate.error}"
+				styleClass="error"
+				value="#{customerDetailsCreate.errorMessage}" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

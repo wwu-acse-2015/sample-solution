@@ -1,0 +1,89 @@
+package de.wwu.pi.acse.PizzaXX
+
+entity Customer {
+	att name : String
+	att address : String
+	att phoneNumber : String
+	ref deliveryOrders : DeliveryOrder[*] opposite=customer
+}
+
+entity DeliveryOrder {
+	ref customer : Customer[1] opposite=deliveryOrders
+	att received : Date
+	contains [*] orderLines : defineEntity entity OrderLine {
+		att quantity : Integer
+		ref dish : Dish[1] opposite=orderLines
+	}
+}
+
+entity Dish {
+	att name : String
+	att description : String
+	att price : Integer optional
+	ref orderLines : OrderLine[*] opposite=dish
+}
+
+ListPage CustomerList for Customer title "Customer Overview" Columns (name | address | phoneNumber)
+ListPage DeliveryOrderList for DeliveryOrder Columns (customer | received)
+ListPage DishList for Dish Columns (name | description | price )
+
+EntryPage CustomerDetails for Customer {
+	Label lbl_name ( "Name" )
+	Field tf_name for name
+	ErrorMsg err_name for tf_name
+
+	Panel #col: 3 {
+		Label lbl_address ( "Address" ),
+		Field tf_address for address,
+		ErrorMsg err_address for tf_address,
+
+		Label lbl_phoneNumber ( "Phone Number" ) for tf_phoneNumber,
+		Field tf_phoneNumber for phoneNumber,
+		ErrorMsg err_phoneNumber for tf_phoneNumber
+	}
+
+	List for deliveryOrders Columns (received)
+
+	Button save ("S A V E")
+}
+
+EntryPage DeliveryOrderDetails for DeliveryOrder {
+	Panel #col: 3 {
+		Label lbl_customer ( "Customer" ),
+		Field tf_customer for customer,
+		ErrorMsg err_customer for tf_customer,
+
+		Label lbl_received ( "Received on" ),
+		Field tf_received for received,
+		ErrorMsg err_received for tf_received
+	}
+	List for orderLines Columns ( quantity | dish )
+
+	Panel #col: 2 {
+		Button btn_back cancel ( "Back" ),
+		Button btn_save createEdit
+	}
+}
+
+EntryPage DishListDetails for Dish {
+	Panel #col: 3 {
+		Label lbl_name ( "Name" ),
+		Field tf_name for name,
+		ErrorMsg err_customer for tf_name,
+
+		Label lbl_description ( "Description" ),
+		Field tf_description for description,
+		ErrorMsg err_description for tf_description,
+
+		Label lbl_price ("Price in Cent"),
+		Field tf_price for price,
+		ErrorMsg err_price for tf_price,
+
+//		Label lbl_orderLines ("Amount ordered dishes"),
+//		List for orderLines Columns (quantity),
+		
+		Button btn_save createEdit,
+		Button btn_remove delete
+	}
+}
+

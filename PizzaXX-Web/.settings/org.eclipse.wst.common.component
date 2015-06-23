@@ -2,8 +2,8 @@
     <wb-module deploy-name="PizzaXX-Web">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src-gen"/>
         <wb-resource deploy-path="/" source-path="/WebContent-gen"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src-gen"/>
         <property name="java-output-path" value="/PizzaXX-Web/build/classes"/>
         <property name="context-root" value="PizzaXX-Web"/>
     </wb-module>

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="title">Create Delivery Order Entry Form</ui:define>
+	<ui:define name="content">
+		<div class="inputForm">
+			<h:form>
+				<h2>Delivery Order Entry Form</h2>
+					<div>
+					<h:panelGrid columns="3"
+						footerClass="form-footer">
+						<h:outputText style="form-label" value="Customer"></h:outputText>
+						<h:selectOneMenu id="tf_customer" value="#{deliveryOrderDetailsCreate.deliveryOrder.customer}" converter="#{customerConverter}">
+								<f:selectItems value="#{deliveryOrderDetailsCreate.allOfTypeCustomer}" />
+						</h:selectOneMenu>
+						<h:message styleClass="error" for="tf_customer" />
+						<h:outputText style="form-label" value="Received on"></h:outputText>
+						<h:inputText id="tf_received" value="#{deliveryOrderDetailsCreate.deliveryOrder.received}" p:placeholder="e.g. 2015-06-30 13:30">
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="Europe/Berlin"/>
+						</h:inputText>
+						<h:message styleClass="error" for="tf_received" />
+					</h:panelGrid>
+					</div>
+					<div>
+					<h:outputText value="No referenced Order Line"></h:outputText>
+					</div>
+					<div>
+					<h:panelGrid columns="2"
+						footerClass="form-footer">
+						<h:commandButton value="Create Edit" action="#{deliveryOrderDetailsCreate.persist}" />
+					</h:panelGrid>
+					</div>
+			</h:form>
+		</div>
+		<div class="result">
+			<h:outputText rendered="#{deliveryOrderDetailsCreate.error}"
+				styleClass="error"
+				value="#{deliveryOrderDetailsCreate.errorMessage}" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

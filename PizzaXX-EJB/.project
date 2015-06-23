@@ -39,4 +39,11 @@
 		<nature>org.jboss.tools.jst.web.kb.kbnature</nature>
 		<nature>org.jboss.tools.cdi.core.cdinature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src-gen</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/runtime-EclipseXtextCrudDslXX/Pizza/src-gen/PizzaXX-EJB/src-gen</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

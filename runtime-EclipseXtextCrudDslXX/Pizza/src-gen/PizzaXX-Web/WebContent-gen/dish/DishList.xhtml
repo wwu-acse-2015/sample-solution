@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="title">Dish List Page List</ui:define>
+	<ui:define name="content">
+		<h2>Dish List Page List</h2>
+		<h:dataTable value="#{dishList.all}" var="cur"
+			styleClass="data-table" headerClass="data-cell header-cell"
+			columnClasses="data-cell,data-cell,data-cell,data-cell"
+			rendered="#{not empty dishList.all}">
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+				<h:outputText value="#{cur.name}">
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Description</f:facet>
+				<h:outputText value="#{cur.description}">
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Price</f:facet>
+				<h:outputText value="#{cur.price}">
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<h:link outcome="/dish/DishListDetails.xhtml">
+					<f:param name="id" value="#{cur.id}"></f:param>
+					Details
+				</h:link>
+			</h:column>
+		</h:dataTable>
+		<h:form>
+			<h:commandButton value="Create new Dish" action="create?faces-redirect=true" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

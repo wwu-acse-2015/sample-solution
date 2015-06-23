@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/resources/master.xhtml">
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="id" value="#{customerDetails.id}"></f:viewParam>
+			<f:event listener="#{customerDetails.ensureInitialized}" type="preRenderView"></f:event>
+		</f:metadata>
+	</ui:define>
+	<ui:define name="title">Customer Entry Form</ui:define>
+	<ui:define name="content">
+		<div class="details">
+			<h2>Customer Entry Form ##{customerDetails.customer.id}</h2>
+			<h:form>
+				<h:outputText style="form-label" value="Name"></h:outputText>
+				<h:inputText id="tf_name" value="#{customerDetails.customer.name}" />
+				<h:message styleClass="error" for="tf_name" />
+				<h:panelGrid columns="3"
+					footerClass="form-footer">
+					<h:outputText style="form-label" value="Address"></h:outputText>
+					<h:inputText id="tf_address" value="#{customerDetails.customer.address}" />
+					<h:message styleClass="error" for="tf_address" />
+					<h:outputLabel value="Phone Number" for="tf_phoneNumber" />
+					<h:inputText id="tf_phoneNumber" value="#{customerDetails.customer.phoneNumber}" />
+					<h:message styleClass="error" for="tf_phoneNumber" />
+				</h:panelGrid>
+				<h:dataTable value="#{customerDetails.customer.deliveryOrders}" var="cur"
+				styleClass="data-table" headerClass="data-cell header-cell"
+				columnClasses="data-cell,data-cell">
+				<!-- columns for properties of the referenced entity -->
+					<h:column>
+						<f:facet name="header">Received</f:facet>
+						<h:outputText value="#{cur.received}">
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="Europe/Berlin"/>
+						</h:outputText>
+					</h:column>
+				
+					<h:column>
+						<h:link outcome="/deliveryOrder/DeliveryOrderDetails.xhtml">
+							<f:param name="id" value="#{cur.id}"></f:param>
+							Details
+						</h:link>
+					</h:column>
+				</h:dataTable>
+				<h:commandButton value="S A V E" action="#{customerDetails.persist}" />
+			</h:form>
+		</div>
+		<div class="result">
+			<h:outputText rendered="#{customerDetails.error}"
+				styleClass="error"
+				value="#{customerDetails.errorMessage}" />
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,115 @@
+grammar de.wwu.pi.acse.crudDslXX.CrudDslXX with org.eclipse.xtext.common.Terminals
+
+generate crudDslXX "http://www.wwu.de/pi/acse/crudDslXX/CrudDslXX"
+
+CrudModel:
+	'package' name=QualifiedName (('Application title' title=ID)?)
+	(
+		entities+=Entity |
+		pages+=Page
+	)*
+;
+
+// =============================================
+/* Entity Model */
+// =============================================
+Entity:
+	'entity' name=ID '{'
+		properties+=Property*
+	'}'
+;
+
+Property:
+	Attribute | AbstractReference
+;
+
+AbstractReference:
+	Reference | CompositeRef
+;
+
+Attribute:
+	'att' name=ID ':' type=AttributeType (optional?='optional')?
+;
+
+enum AttributeType:
+	String | Integer | Date
+;
+
+Reference:
+	'ref' name=ID ':' type=[Entity] (multiplicity=MultiplicityKind)? ('opposite=' opposite=[Reference])
+;
+
+CompositeRef:
+	'contains' '[*]' name=ID ':' 'defineEntity' type=Entity
+;
+
+enum MultiplicityKind:
+	Single='[1]' | //default
+	Multiple='[*]'
+;
+
+// =============================================
+/* GUI Model */
+// =============================================
+
+Page:
+	(EntryPage | ListPage)
+;
+
+ListPage:
+	'ListPage' name=ID 'for' entity=[Entity] ('title' title=STRING)? columnList=ColumnList
+;
+
+EntryPage:
+	'EntryPage' name=ID 'for' entity=[Entity] (('title' title=STRING)?) '{'
+		elements+=PageElement*
+	'}'
+;
+
+PageElement:
+	(Field | ElemForField | Button | Panel | EntityList)
+;
+
+ElemForField:
+	(Label | ErrorMessage)
+;
+
+Label:
+	'Label' name=ID ('(' (text=STRING)? ')')? ('for' field=[Field])?
+;
+
+Field:
+	'Field' name=ID 'for' property=[Property]
+;
+
+Button:
+	'Button' name=ID (kind=ButtonKind)? ('(' (text=STRING)? ')')?
+;
+
+enum ButtonKind:
+	createEdit | // default
+	delete |
+	cancel
+;
+
+ErrorMessage:
+	'ErrorMsg' name=ID 'for' field=[Field]
+;
+
+EntityList:
+	'List for' reference=[AbstractReference] columnList=ColumnList
+;
+
+Panel:
+	'Panel' '#col:' column_number=INT '{'  pageElem+=PageElement (',' pageElem+=PageElement)* '}'
+;
+
+ColumnList:
+	'Columns' '(' properties+=[Property] ('|' properties+=[Property])* ')'
+;
+
+// =============================================
+/* Util */
+// =============================================
+QualifiedName:
+	ID ('.' ID)*;

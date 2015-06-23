@@ -40,4 +40,16 @@
 		<nature>org.jboss.tools.jsf.jsfnature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent-gen</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/runtime-EclipseXtextCrudDslXX/Pizza/src-gen/PizzaXX-Web/WebContent-gen</locationURI>
+		</link>
+		<link>
+			<name>src-gen</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/runtime-EclipseXtextCrudDslXX/Pizza/src-gen/PizzaXX-Web/src-gen</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
