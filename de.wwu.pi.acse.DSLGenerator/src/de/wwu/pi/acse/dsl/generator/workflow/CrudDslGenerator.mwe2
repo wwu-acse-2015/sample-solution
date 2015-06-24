@@ -1,0 +1,58 @@
+module de.wwu.pi.acse.dsl.generator.workflow.CrudDslGenerator
+
+import org.eclipse.emf.mwe.utils.*
+
+var targetDir = "src-gen"
+var projectName = "PizzaXX"
+var baseProjectPath = "../${projectName}"
+var modelPath = "model"
+
+Workflow {
+	bean = StandaloneSetup {
+
+    }
+	
+//	Problem with reading file encoding https://bugs.eclipse.org/bugs/show_bug.cgi?id=409069
+	component = DirectoryCleaner {
+		directory = targetDir
+		exclude = ".git"
+	}
+
+	component = DirectoryCleaner {
+		directory = "${baseProjectPath}-EJB/${targetDir}"
+		exclude = ".git"
+		exclude = ".gitkeep"
+	}
+
+	component = DirectoryCleaner {
+		directory = "${baseProjectPath}-Persistence/${targetDir}"
+		exclude = ".git"
+		exclude = ".gitkeep"
+	}
+
+	component = DirectoryCleaner {
+		directory = "${baseProjectPath}-Web/${targetDir}"
+		exclude = ".git"
+		exclude = ".gitkeep"
+	}
+	
+	component = CrudDslGeneratorSupport {}
+	
+	//register uml reader
+	component = org.eclipse.xtext.mwe.Reader {
+		path = modelPath
+		register = de.wwu.pi.acse.crudDslXX.CrudDslXXStandaloneSetup{}
+		loadResource = {
+			slot = "model"
+		}
+	}
+	
+	//register generator
+	component = org.eclipse.xtext.generator.GeneratorComponent {
+		register = CrudDslGeneratorSetup{}
+		slot = "model"
+		outlet = {
+			path = targetDir
+		}
+	}
+}
